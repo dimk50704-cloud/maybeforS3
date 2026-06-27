@@ -1,161 +1,77 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MS 儲存內容</title>
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MS 儲存內容</title><style>:root{--bg:#0f172a;--card:#111827;--muted:#94a3b8;--text:#e5e7eb;--line:#243041;--accent:#38bdf8}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b1220,#0f172a);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans TC",sans-serif}.wrap{max-width:1680px;margin:0 auto;padding:24px}.nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.nav a{color:#bae6fd;text-decoration:none;background:#082f49;padding:8px 12px;border-radius:999px;border:1px solid #164e63}.card{background:rgba(17,24,39,.96);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px;border-bottom:1px solid #243041;font-size:13px}th:first-child,td:first-child{text-align:left}button{padding:8px 12px;border-radius:10px;border:1px solid #334155;background:#0b1220;color:var(--text);cursor:pointer}</style></head><body><div class="wrap"><div class="nav"><a href="./index.html">主計算頁</a><a href="./saved.html">儲存內容</a></div><h1>MS 儲存內容</h1><div class="card"><button onclick="render()">重新整理</button><button onclick="exportExcel()">匯出 Excel</button> <button onclick="clearAll()">清除全部</button><table id="savedTable"><thead><tr><th>日期區間</th><th>目前等級</th><th>目前%</th><th>最終結果</th><th>總EXP</th><th>等值高階EXP</th><th>狩獵區</th><th>日常項目</th><th>活動</th><th>高階票</th><th>水</th><th>掛機</th><th>備註</th><th>操作</th></tr></thead><tbody></tbody></table></div></div><script>function n(v){return Number(String(v||0).replace(/,/g,''))||0}function sum(rows,names){let t=0;(rows||[]).forEach(r=>{if(names.includes(r.source))t+=n(r.high)});return t?t.toLocaleString('zh-TW',{maximumFractionDigits:2,minimumFractionDigits:2}):'-'}function get(rows,name){const r=(rows||[]).find(x=>x.source===name);return r?r.high:'-'}function function exportExcel(){
 
-<!-- Excel 套件 -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    const list = JSON.parse(localStorage.getItem('MS_SAVED_ROWS') || '[]');
 
-<style>
-:root{
-  --bg:#0f172a;
-  --card:#111827;
-  --text:#e5e7eb;
-  --line:#243041;
-}
-body{
-  margin:0;
-  background:linear-gradient(180deg,#0b1220,#0f172a);
-  color:var(--text);
-  font-family:sans-serif;
-}
-.wrap{max-width:1400px;margin:auto;padding:20px}
-.card{
-  background:#111827;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:16px;
-}
-button{
-  margin-right:8px;
-  padding:6px 10px;
-  cursor:pointer;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-th,td{
-  border-bottom:1px solid #243041;
-  padding:6px;
-  font-size:13px;
-}
-</style>
-</head>
+    if(list.length===0){
+        alert("沒有可匯出的資料");
+        return;
+    }
 
-<body>
-<div class="wrap">
-  <h1>MS 儲存內容</h1>
+    function value(rows,name){
+        const r=(rows||[]).find(x=>x.source===name);
+        return r ? Number(String(r.high).replace(/,/g,'')) : 0;
+    }
 
-  <div class="card">
-    <button onclick="render()">重新整理</button>
-    <button onclick="exportExcel()">匯出 Excel</button>
-    <button onclick="clearAll()">清除全部</button>
+    const excelData = list.map(item=>({
 
-    <table>
-      <thead>
-        <tr>
-          <th>日期</th>
-          <th>等級</th>
-          <th>%</th>
-          <th>結果</th>
-          <th>總EXP</th>
-          <th>高階EXP</th>
-          <th>備註</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody id="tb"></tbody>
-    </table>
-  </div>
-</div>
+        日期區間:item.dateRange,
 
-<script>
-// 數字轉換
-function n(v){
-  return Number(String(v||0).replace(/,/g,''))||0;
-}
+        目前等級:item.level,
 
-// 讀資料
-function getList(){
-  return JSON.parse(localStorage.getItem('MS_SAVED_ROWS')||'[]');
-}
+        目前百分比:item.levelPct,
 
-// 顯示
-function render(){
-  const list = getList();
-  const tb = document.getElementById("tb");
-  tb.innerHTML = "";
+        最終結果:item.final,
 
-  if(list.length === 0){
-    tb.innerHTML = "<tr><td colspan='8'>沒有資料</td></tr>";
-    return;
-  }
+        總EXP:Number(String(item.totalExp).replace(/,/g,'')),
 
-  list.forEach(item=>{
-    const tr = document.createElement("tr");
+        等值高階EXP:Number(String(item.totalHigh).replace(/,/g,'')),
 
-    tr.innerHTML = `
-      <td>${item.dateRange || '-'}</td>
-      <td>${item.level || '-'}</td>
-      <td>${item.levelPct || '-'}</td>
-      <td>${item.final || '-'}</td>
-      <td>${item.totalExp || '-'}</td>
-      <td>${item.totalHigh || '-'}</td>
-      <td>${item.note || ''}</td>
-      <td><button onclick="removeItem(${item.id})">刪除</button></td>
-    `;
+        狩獵:value(item.rows,'狩獵'),
 
-    tb.appendChild(tr);
-  });
-}
+        活動技能:value(item.rows,'活動技能'),
 
-// 刪除
-function removeItem(id){
-  const list = getList().filter(x=>x.id!==id);
-  localStorage.setItem('MS_SAVED_ROWS', JSON.stringify(list));
-  render();
-}
+        暴風修練:value(item.rows,'暴風修練'),
 
-// 清空
-function clearAll(){
-  if(confirm("確定清除？")){
-    localStorage.removeItem('MS_SAVED_ROWS');
-    render();
-  }
-}
+        一般加速器:value(item.rows,'一般加速器'),
 
-// 匯出 Excel
-function exportExcel(){
-  const list = getList();
+        快遞加速器:value(item.rows,'快遞加速器'),
 
-  if(list.length === 0){
-    alert("沒有資料");
-    return;
-  }
+        寶物獵人寶箱:value(item.rows,'寶物獵人寶箱'),
 
-  const data = list.map(item=>({
-    日期:item.dateRange,
-    等級:item.level,
-    百分比:item.levelPct,
-    最終結果:item.final,
-    總EXP:n(item.totalExp),
-    高階EXP:n(item.totalHigh),
-    備註:item.note
-  }));
+        每日三區:value(item.rows,'每日三區'),
 
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "資料");
+        怪物公園:value(item.rows,'怪物公園'),
 
-  XLSX.writeFile(wb, "MS紀錄.xlsx");
-}
+        紅月之森:value(item.rows,'紅月之森'),
 
-// 初始
-render();
-</script>
+        極限怪物公園:value(item.rows,'極限怪物公園'),
 
-</body>
-</html>
+        史詩副本:value(item.rows,'史詩副本'),
+
+        鋼鐵草莓農場:value(item.rows,'鋼鐵草莓農場'),
+
+        黃金番茄拳擊機:value(item.rows,'黃金番茄拳擊機'),
+
+        桑拿:value(item.rows,'桑拿'),
+
+        高階票:value(item.rows,'高階票'),
+
+        各種水:value(item.rows,'各種水'),
+
+        會場掛機:value(item.rows,'會場掛機'),
+
+        VIP掛機:value(item.rows,'VIP掛機'),
+
+        備註:item.note
+
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(excelData);
+
+    const wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb,ws,"MS資料");
+
+    XLSX.writeFile(wb,"MS資料.xlsx");
+
+} render(){const list=JSON.parse(localStorage.getItem('MS_SAVED_ROWS')||'[]');const tb=document.querySelector('#savedTable tbody');tb.innerHTML='';if(!list.length){tb.innerHTML='<tr><td colspan="14">目前沒有儲存內容</td></tr>';return}const hunt=['狩獵','活動技能','暴風修練','一般加速器','快遞加速器','寶物獵人寶箱'];const daily=['每日三區','怪物公園','紅月之森','極限怪物公園','史詩副本'];const act=['鋼鐵草莓農場','黃金番茄拳擊機','桑拿'];const afk=['會場掛機','VIP掛機'];list.forEach(item=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${item.dateRange||'-'}</td><td>${item.level||'-'}</td><td>${item.levelPct||'-'}</td><td>${item.final||'-'}</td><td>${item.totalExp||'-'}</td><td>${item.totalHigh||'-'}</td><td>${sum(item.rows,hunt)}</td><td>${sum(item.rows,daily)}</td><td>${sum(item.rows,act)}</td><td>${get(item.rows,'高階票')}</td><td>${get(item.rows,'各種水')}</td><td>${sum(item.rows,afk)}</td><td>${item.note||''}</td><td><button onclick="removeItem(${item.id})">刪除</button></td>`;tb.appendChild(tr)})}function removeItem(id){const list=JSON.parse(localStorage.getItem('MS_SAVED_ROWS')||'[]').filter(x=>x.id!==id);localStorage.setItem('MS_SAVED_ROWS',JSON.stringify(list));render()}function clearAll(){if(confirm('確定清除全部儲存內容？')){localStorage.removeItem('MS_SAVED_ROWS');render()}}render()<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script></script></body></html>
