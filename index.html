@@ -252,7 +252,28 @@ function calc(){
   q('baseSteel').textContent=startLevel>=280?fmt((EXPRESS[startLevel]?EXPRESS[startLevel].steelValue:0),0):'LV280 前不可使用';
   q('baseTomato').textContent=fmt((TOMATO[startLevel]||0)*800,0);
   q('parkInfo').textContent='怪公 / 極怪公加成 '+fmt(num(q('extParkBonus').value),2)+'%｜每日260以下 '+fmt(num(q('dailyBonusUnder260').value),2)+'%｜每日260以上 '+fmt(num(q('dailyBonus260Plus').value),2)+'%';
+// ===== 新來源 =====
 
+// 活動技能
+const skillCount = Math.min(140, num(q('skillCount').value));
+const skillExp = work.monsterExp * skillCount * 2;
+const skillHigh = skillExp / high;
+
+// 暴風
+const stormHigh = num(q('stormCount').value) * 0.03296;
+
+// 會場掛機
+const afkHigh = num(q('afkEventHour').value) * 18.75 * 0.9;
+
+// VIP
+const tier = q('vipTier').value;
+const vh = num(q('vipHour').value);
+const vs = num(q('vipSat').value);
+
+const perHour = VIP[tier][workLevel] * 720;
+const effective = (vh - vs) + vs * 2;
+const vipHigh = (perHour * effective / high) * 0.9;
+  
   const workLevel = startLevel;
 const workPct = startPct;
 
@@ -343,3 +364,5 @@ calc();
 </script>
 </body>
 </html>
+
+
