@@ -21,7 +21,7 @@ label{display:block;font-size:13px;color:#cbd5e1;margin-bottom:6px}input,select{
 .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.kpi{background:#0b1220;border:1px solid #243041;border-radius:10px;padding:8px 10px}.kpi .t{font-size:11px;color:#94a3b8;margin-bottom:4px}.kpi .v{font-size:18px;font-weight:700}
 table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px;border-bottom:1px solid #243041;font-size:13px}th:first-child,td:first-child{text-align:left}
 .note{background:#111827;border-left:4px solid var(--accent);padding:10px 12px;border-radius:10px;color:#cbd5e1;line-height:1.6}
-.small{font-size:12px}
+.small{font-size:12px}.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.boxgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.boxpane{background:#0b1220;border:1px solid #334155;border-radius:12px;padding:14px}.boxtitle{font-weight:800;margin-bottom:8px}.bro{color:#fde68a}.sis{color:#f9a8d4}
 @media(max-width:1200px){.grid{grid-template-columns:1fr}}@media(max-width:760px){.row,.row3,.row4,.kpis{grid-template-columns:1fr}}
 
 
@@ -29,7 +29,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
 </head>
 <body>
 <div class="wrap">
-  <div class="nav"><a href="./index.html">主計算頁</a><a href="./MS_狩獵經驗％計算.html">狩獵經驗%</a><a href="./MS_狩獵效率.html">狩獵效率</a><a href="./MS_活動資源等值高階EXP.html">活動資源</a><a href="./MS_VIP掛機推估.html">VIP掛機</a></div>
+  <div class="nav"><a href="./index.html">主計算頁</a><a href="./saved.html">儲存內容</a></div>
   <h1>MS 主計算頁</h1>
   <div class="sub"></div>
 
@@ -50,24 +50,35 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
       <div class="card">
         <h2>狩獵設定</h2>
         <div class="row3">
-          <div><label>基礎倍率 %</label><input id="baseRate" type="number" min="0" step="0.01" value="600"></div>
+          <div><label>基礎倍率 %</label><input id="baseRate" type="number" min="0" step="0.01" value="550"></div>
           <div><label>地圖輪額外加成 %</label><input id="wheelExtra" type="number" min="0" step="0.01" value="0"></div>
           <div><label>狩獵怪物總數</label><input id="huntingCount" type="number" min="0" step="1" value="0"></div>
         </div>
         <div class="note small" style="margin-top:10px">預設狩獵同等級怪物</div>
       </div>
+      <div class="card">
+        <h2>狩獵額外系統</h2>
+        <div class="row3">
+          <div><label>活動技能次數（≤140）</label><input id="skillCount" type="number" min="0" max="140" step="1" value="0"></div>
+          <div><label>暴風修練擊殺數</label><input id="stormCount" type="number" min="0" step="1" value="0"></div>
+          <div></div>
+        </div>
+      </div>
+
+
 
       <div class="card">
-        <h2>每日 / 每週項目</h2>
-        <div class="row3">
-          <div><label>總共幾週</label><input id="totalWeeks" type="number" min="0" step="1" value="0"></div>
-          <div><label>怪物公園每週次數</label><input id="parkRunsPerWeek" type="number" min="0" step="1" value="0"><div class="muted">週日有額外加成50%，上限7次</div></div>
-          <div><label>怪公 / 極怪公額外倍率 %</label><input id="extParkBonus" type="number" min="0" step="0.01" value="0"></div>
+        <h2>寶物獵人寶箱</h2>
+        <div class="boxgrid">
+          <div class="boxpane"><div class="boxtitle bro">兄弟箱（Gold）</div><div class="row4"><div><label>特殊 ×3000</label><input id="broSpecial" type="number" min="0" step="1" value="0"></div><div><label>稀有 ×6000</label><input id="broRare" type="number" min="0" step="1" value="0"></div><div><label>罕見 ×12000</label><input id="broUncommon" type="number" min="0" step="1" value="0"></div><div><label>傳說 ×24000</label><input id="broLegend" type="number" min="0" step="1" value="0"></div></div></div>
+          <div class="boxpane"><div class="boxtitle sis">姊姊箱（DIX / DIA）</div><div class="row4"><div><label>特殊 ×30000</label><input id="sisSpecial" type="number" min="0" step="1" value="0"></div><div><label>稀有 ×60000</label><input id="sisRare" type="number" min="0" step="1" value="0"></div><div><label>罕見 ×120000</label><input id="sisUncommon" type="number" min="0" step="1" value="0"></div><div><label>傳說 ×240000</label><input id="sisLegend" type="number" min="0" step="1" value="0"></div></div></div>
         </div>
-        <div class="row3 section-gap">
-          <div><label>每日經驗額外倍率（260以下） %</label><input id="dailyBonusUnder260" type="number" min="0" step="0.01" value="0"></div>
-          <div><label>每日經驗額外倍率（260以上） %</label><input id="dailyBonus260Plus" type="number" min="0" step="0.01" value="0"></div>
-          <div></div>
+        <div class="row section-gap"><div><label>寶箱額外倍率</label><select id="boxMultiplier"><option value="1">1倍（100%）</option><option value="2">2倍（+100%）</option><option value="3">3倍（+200%）</option></select></div><div class="note small">備註：一天最多合計 10 箱。</div></div>
+      </div>
+      <div class="card">
+        <h2>日常項目</h2>
+        <div class="row3">          <div><label>怪物公園每週次數</label><input id="parkRunsPerWeek" type="number" min="0" step="1" value="0"><div class="muted">週日有額外加成50%，上限7次</div></div>
+          <div><label>怪公 / 極怪公額外倍率 %</label><input id="extParkBonus" type="number" min="0" step="0.01" value="0"></div>
         </div>
         <div class="row3 section-gap">
           <div><label>每日 200–235區（每週0–7次）</label><input id="d200runsPerWeek" type="number" min="0" max="7" step="1" value="0"></div>
@@ -75,11 +86,16 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
           <div><label>每日 260區+（每週0–7次）</label><input id="d260runsPerWeek" type="number" min="0" max="7" step="1" value="0"></div>
         </div>
         <div class="row3 section-gap">
-          <div><label>紅月之森 N週</label><input id="redMoonWeeks" type="number" min="0" step="1" value="0"></div>
-          <div><label>紅月倍率</label><select id="redMoonMode"><option value="0">0倍</option><option value="1">1倍</option><option value="2">2倍</option></select></div>
-          <div><label>極限怪物公園 N週</label><input id="extParkWeeks" type="number" min="0" step="1" value="0"></div>
+          <div><label>每日經驗額外倍率（260以下） %</label><input id="dailyBonusUnder260" type="number" min="0" step="0.01" value="0"></div>
+          <div><label>每日經驗額外倍率（260以上） %</label><input id="dailyBonus260Plus" type="number" min="0" step="0.01" value="0"></div>
+          <div></div>
         </div>
-        <div class="row section-gap">
+        <div class="row3 section-gap">
+          <div><label>紅月之森</label><select id="redMoonMode"><option value="1">1倍</option><option value="2">2倍</option><option value="0">0倍</option></select></div>
+          <div><label>極限怪物公園</label><select id="extParkRuns"><option value="0">0次</option><option value="1">1次</option></select></div>
+          <div></div>
+        </div>
+<div class="row section-gap">
           <div class="muted" id="parkInfo"></div>
           <div></div>
         </div>
@@ -98,7 +114,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
         <h2>活動區</h2>
         <div class="row3">
           <div><label>一般加速器數量</label><input id="normalBoosterCount" type="number" min="0" step="1" value="0"></div>
-          <div><label>EXPRESS加速器數量</label><input id="expressCount" type="number" min="0" step="1" value="0"></div>
+          <div><label>快遞加速器數量</label><input id="expressCount" type="number" min="0" step="1" value="0"></div>
           <div><label>鋼鐵草莓農場次數</label><input id="steelCount" type="number" min="0" step="1" value="0"></div>
         </div>
         <div class="row3 section-gap">
@@ -106,12 +122,29 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
           <div><label>黃金番茄分數</label><input id="tomatoAvg" type="number" min="0" max="1150" step="1" value="0"></div>
           <div><label>桑拿時數</label><input id="saunaHours" type="number" min="0" step="0.5" value="0"></div>
         </div>
+        <div class="row3 section-gap">
+          <div><label>高階票使用</label><input id="useHighTicket" type="number" min="0" step="0.01" value="0"></div>
+          <div></div><div></div>
+        </div>
         <div class="row section-gap">
           <div class="muted" id="activityInfo"></div>
           <div></div>
         </div>
       </div>
 
+      <div class="card">
+        <h2>掛機系統</h2>
+        <div class="row3">
+          <div><label>會場掛機時數</label><input id="afkEventHour" type="number" min="0" step="0.5" value="0"></div>
+          <div><label>VIP等級</label><select id="vipTier"><option value="金">金</option><option value="鑽">鑽</option><option value="皇家">皇家</option></select></div>
+          <div></div>
+        </div>
+        <div class="row3 section-gap">
+          <div><label>VIP總時數</label><input id="vipHour" type="number" min="0" step="0.5" value="0"></div>
+          <div><label>VIP週六時數</label><input id="vipSat" type="number" min="0" step="0.5" value="0"></div>
+          <div></div>
+        </div>
+      </div>
       <div class="card">
         <h2>水系統</h2>
         <div class="row4">
@@ -124,6 +157,17 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
     </div>
 
     <div class="stack">
+      <div class="card">
+        <h2>儲存內容</h2>
+        <div class="row">
+          <div><label>日期區間</label><input id="dateRange" type="text" placeholder="例：6/24-6/30" value=""></div>
+          <div><label>備註</label><input id="saveNote" type="text" placeholder="可留空" value=""></div>
+        </div>
+        <div class="row section-gap">
+          <button onclick="saveCurrentResult()">儲存內容</button>
+          <button onclick="resetAllInputs()">重置</button>
+        </div>
+      </div>
       <div class="card">
         <h2>計算結果</h2>
         <h3>進度</h3>
@@ -149,7 +193,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
         <tr><th>1高階EXP經驗</th><td id="baseHigh"></td></tr>
         <tr><th>升等需求</th><td id="baseReq"></td></tr>
         <tr><th>一般加速器單罐</th><td id="baseBooster"></td></tr>
-        <tr><th>EXPRESS 單次</th><td id="baseExpress"></td></tr>
+        <tr><th>快遞加速器單次</th><td id="baseExpress"></td></tr>
         <tr><th>鋼鐵草莓單場</th><td id="baseSteel"></td></tr>
         <tr><th>黃金番茄每800分</th><td id="baseTomato"></td></tr>
       </tbody></table></div>
@@ -161,6 +205,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
 const GENERAL={"260": {"monsterExp": 1725461, "highExp": 388229000, "levelReq": 1731919984062, "base600Ticket": 62.2221781474336}, "261": {"monsterExp": 1750290, "highExp": 393816000, "levelReq": 1749239183902, "base600Ticket": 62.222103723566335}, "262": {"monsterExp": 1775159, "highExp": 399411000, "levelReq": 1766731575741, "base600Ticket": 62.22218717060872}, "263": {"monsterExp": 1800203, "highExp": 405046000, "levelReq": 1784398891498, "base600Ticket": 62.222172296479904}, "264": {"monsterExp": 1828409, "highExp": 411393000, "levelReq": 1802242880412, "base600Ticket": 62.222074755768816}, "265": {"monsterExp": 2056974, "highExp": 462820000, "levelReq": 2342915744535, "base600Ticket": 62.22210794693401}, "266": {"monsterExp": 2085219, "highExp": 469175000, "levelReq": 2366344901980, "base600Ticket": 62.22212607236106}, "267": {"monsterExp": 2113572, "highExp": 475554000, "levelReq": 2390008350999, "base600Ticket": 62.22218296975738}, "268": {"monsterExp": 2145596, "highExp": 482760000, "levelReq": 2413908434508, "base600Ticket": 62.22210622255365}, "269": {"monsterExp": 2174274, "highExp": 489212000, "levelReq": 2438047518853, "base600Ticket": 62.22217770618873}, "270": {"monsterExp": 2445217, "highExp": 511726000, "levelReq": 5412465491853, "base600Ticket": 66.8972027999359}, "271": {"monsterExp": 2481337, "highExp": 536006000, "levelReq": 5466590146770, "base600Ticket": 64.81031555616914}, "272": {"monsterExp": 2513634, "highExp": 542983000, "levelReq": 5521256048237, "base600Ticket": 64.81027214480011}, "273": {"monsterExp": 2546149, "highExp": 572884000, "levelReq": 5576468608720, "base600Ticket": 62.222170631401816}, "274": {"monsterExp": 2582906, "highExp": 581154000, "levelReq": 5632233294807, "base600Ticket": 62.222206162222065}, "275": {"monsterExp": 2903024, "highExp": 653181000, "levelReq": 11377111255510, "base600Ticket": 62.22216506603836}, "276": {"monsterExp": 2939616, "highExp": 661414000, "levelReq": 12514822381061, "base600Ticket": 62.22218459240355}, "277": {"monsterExp": 2981010, "highExp": 670728000, "levelReq": 13766304619167, "base600Ticket": 62.22215264608008}, "278": {"monsterExp": 3017988, "highExp": 679048000, "levelReq": 15142935081084, "base600Ticket": 62.22215808013572}, "279": {"monsterExp": 3059716, "highExp": 688437000, "levelReq": 16657228589191, "base600Ticket": 62.22214087854081}, "280": {"monsterExp": 3436027, "highExp": 773107000, "levelReq": 33647601750165, "base600Ticket": 62.22214777514626}, "281": {"monsterExp": 3482914, "highExp": 783656000, "levelReq": 37012361925183, "base600Ticket": 62.22219443225089}, "282": {"monsterExp": 3524768, "highExp": 793073000, "levelReq": 40713598117701, "base600Ticket": 62.22220653079855}, "283": {"monsterExp": 3572010, "highExp": 803703000, "levelReq": 44784957929471, "base600Ticket": 62.22216415765525}, "284": {"monsterExp": 3614278, "highExp": 813213000, "levelReq": 49263453722418, "base600Ticket": 62.22218779089857}, "285": {"monsterExp": 4062965, "highExp": 914168000, "levelReq": 99512176519285, "base600Ticket": 62.22216266594324}, "286": {"monsterExp": 4110304, "highExp": 924819000, "levelReq": 109463394171214, "base600Ticket": 62.22218185396277}, "287": {"monsterExp": 4163751, "highExp": 936844000, "levelReq": 120409733588335, "base600Ticket": 62.22222056180111}, "288": {"monsterExp": 4217526, "highExp": 948944000, "levelReq": 132450706947169, "base600Ticket": 62.22217960174678}, "289": {"monsterExp": 4265489, "highExp": 959736000, "levelReq": 145695777641885, "base600Ticket": 62.22215901039453}, "290": {"monsterExp": 4793318, "highExp": 1078497000, "levelReq": 294305470836608, "base600Ticket": 62.22219626016577}, "291": {"monsterExp": 4847012, "highExp": 1078497000, "levelReq": 323736017920269, "base600Ticket": 62.91919958979951}, "292": {"monsterExp": 4907812, "highExp": 1078497000, "levelReq": 356109619712296, "base600Ticket": 63.708446106016055}, "293": {"monsterExp": 4968977, "highExp": 1078497000, "levelReq": 391720581683526, "base600Ticket": 64.50243069753556}, "294": {"monsterExp": 5023491, "highExp": 1078497000, "levelReq": 430892639851879, "base600Ticket": 65.21007847031564}};const DAILY={"200": 732132258, "210": 2141658246, "220": 3189098250, "225": 3305187639, "230": 4398266165, "235": 4530843954, "245": 8397548775, "250": 9057690000, "255": 10225741680, "260": 16455682080, "265": 19372782409, "270": 23246151120, "280": 38593455264, "290": 89730912960};const PARK={"200": 359915080, "210": 1285078680, "220": 3217660990, "225": 4707573370, "230": 5993511040, "235": 6919667370, "240": 8712814920, "245": 11716616500, "250": 14058901000, "255": 15552557400, "260": 37474604460, "265": 44435446300, "270": 52818835200, "275": 76639838000, "280": 107204032000, "285": 156017856000, "290": 218575316000};const PAGE1={"260": {"redMoon": 265200000000, "extremePark": 265200000000}, "261": {"redMoon": 266220000000, "extremePark": 266220000000}, "262": {"redMoon": 267240000000, "extremePark": 267240000000}, "263": {"redMoon": 268260000000, "extremePark": 268260000000}, "264": {"redMoon": 269280000000, "extremePark": 269280000000}, "265": {"redMoon": 351390000000, "extremePark": 351390000000}, "266": {"redMoon": 352716000000, "extremePark": 352716000000}, "267": {"redMoon": 354042000000, "extremePark": 354042000000}, "268": {"redMoon": 355368000000, "extremePark": 355368000000}, "269": {"redMoon": 356694000000, "extremePark": 356694000000}, "270": {"redMoon": 567000000000, "extremePark": 567000000000}, "271": {"redMoon": 569100000000, "extremePark": 569100000000}, "272": {"redMoon": 571200000000, "extremePark": 571200000000}, "273": {"redMoon": 573300000000, "extremePark": 573300000000}, "274": {"redMoon": 575400000000, "extremePark": 575400000000}, "275": {"redMoon": 739200000000, "extremePark": 740271120000}, "276": {"redMoon": 741888000000, "extremePark": 749602080000}, "277": {"redMoon": 744576000000, "extremePark": 760157550000}, "278": {"redMoon": 747264000000, "extremePark": 769586940000}, "279": {"redMoon": 749952000000, "extremePark": 780227580000}, "280": {"redMoon": 1061424000000, "extremePark": 876186885000}, "281": {"redMoon": 1065214800000, "extremePark": 888143070000}, "282": {"redMoon": 1069005600000, "extremePark": 898815840000}, "283": {"redMoon": 1072796400000, "extremePark": 910862550000}, "284": {"redMoon": 1076587200000, "extremePark": 921640890000}, "285": {"redMoon": 1080378000000, "extremePark": 1036056075000}, "286": {"redMoon": 1084168800000, "extremePark": 1048127520000}, "287": {"redMoon": 1087959600000, "extremePark": 1061756505000}, "288": {"redMoon": 1091750400000, "extremePark": 1075469130000}, "289": {"redMoon": 1095541200000, "extremePark": 1087699695000}, "290": {"redMoon": 845640000000, "extremePark": 1222296090000}, "291": {"redMoon": 848556000000, "extremePark": 1235988060000}, "292": {"redMoon": 851472000000, "extremePark": 1251492060000}, "293": {"redMoon": 854388000000, "extremePark": 1267089135000}, "294": {"redMoon": 857304000000, "extremePark": 1280990205000}};const EXPRESS={"260": {"expressValue": 62944817280.0, "steelValue": 0.0}, "261": {"expressValue": 63850579200.0, "steelValue": 0.0}, "262": {"expressValue": 64757800320.0, "steelValue": 0.0}, "263": {"expressValue": 65671405440.0, "steelValue": 0.0}, "264": {"expressValue": 66700360320.0, "steelValue": 0.0}, "265": {"expressValue": 86294173210.0, "steelValue": 0.0}, "266": {"expressValue": 87479107450.0, "steelValue": 0.0}, "267": {"expressValue": 88668572620.0, "steelValue": 0.0}, "268": {"expressValue": 90012043430.0, "steelValue": 0.0}, "269": {"expressValue": 91215142810.0, "steelValue": 0.0}, "270": {"expressValue": 124882122700.0, "steelValue": 0.0}, "271": {"expressValue": 126726843340.0, "steelValue": 0.0}, "272": {"expressValue": 128376315610.0, "steelValue": 0.0}, "273": {"expressValue": 130036921690.0, "steelValue": 0.0}, "274": {"expressValue": 131914175270.0, "steelValue": 0.0}, "275": {"expressValue": 148263241690.0, "steelValue": 0.0}, "276": {"expressValue": 150132068390.0, "steelValue": 0.0}, "277": {"expressValue": 152246142720.0, "steelValue": 0.0}, "278": {"expressValue": 154134683060.0, "steelValue": 0.0}, "279": {"expressValue": 156265815590.0, "steelValue": 0.0}, "280": {"expressValue": 156682831200.0, "steelValue": 3265600060800.0}, "281": {"expressValue": 158820878400.0, "steelValue": 3310161465600.0}, "282": {"expressValue": 160729420800.0, "steelValue": 3349939507200.0}, "283": {"expressValue": 162883656000.0, "steelValue": 3394838304000.0}, "284": {"expressValue": 164811076800.0, "steelValue": 3435009811200.0}, "285": {"expressValue": 185271204000.0, "steelValue": 5148589248000.0}, "286": {"expressValue": 187429862400.0, "steelValue": 5208577228800.0}, "287": {"expressValue": 189867045600.0, "steelValue": 5276305267200.0}, "288": {"expressValue": 192319185600.0, "steelValue": 5344448947200.0}, "289": {"expressValue": 194506298400.0, "steelValue": 5405227660800.0}, "290": {"expressValue": 201089276660.0, "steelValue": 6580266950400.0}, "291": {"expressValue": 203341847500.0, "steelValue": 6653978073600.0}, "292": {"expressValue": 205892529100.0, "steelValue": 6737444313600.0}, "293": {"expressValue": 208458523180.0, "steelValue": 6821411625600.0}, "294": {"expressValue": 210745494470.0, "steelValue": 6896248444800.0}};const TOMATO={"200": 88837200, "225": 308448000, "250": 526326300, "275": 2612721600, "201": 91250100, "226": 314852400, "251": 534636000, "276": 2645654400, "202": 93690900, "227": 320594400, "252": 542986200, "277": 2682909000, "203": 96412500, "228": 327087000, "253": 551378700, "278": 2716189200, "204": 98897400, "229": 333622800, "254": 559836900, "279": 2753744400, "205": 101395800, "230": 354024900, "255": 568312200, "280": 3092424300, "206": 103923000, "231": 360949500, "256": 576873900, "281": 3134622600, "207": 106738200, "232": 367900200, "257": 585453600, "282": 3172291200, "208": 109307700, "233": 374131800, "258": 595134900, "283": 3214809000, "209": 111889800, "234": 381187800, "259": 603846000, "284": 3252850200, "210": 223202700, "235": 388313100, "260": 1552914900, "285": 3656668500, "211": 228305700, "236": 395461800, "261": 1575261000, "286": 3699273600, "212": 234042300, "237": 401854500, "262": 1597643100, "287": 3747375900, "213": 239227200, "238": 409107600, "263": 1620182700, "288": 3795773400, "214": 234042300, "239": 416403000, "264": 1645568100, "289": 3838940100, "215": 244458900, "240": 423741600, "265": 1851114600, "290": 3838940100, "216": 255638700, "241": 437052600, "266": 1876697100, "291": 3838940100, "217": 261611100, "242": 444605400, "267": 1902214800, "292": 3838940100, "218": 266987700, "243": 451314900, "268": 1931036400, "293": 3838940100, "219": 273054600, "244": 458967600, "269": 1956846600, "294": 3838940100, "220": 278523000, "245": 466659900, "270": 2046902400, "295": 3838940100, "221": 284684400, "246": 474395400, "271": 2144023200, "296": 3838940100, "222": 290225700, "247": 482174100, "272": 2171930400, "297": 3838940100, "223": 296475300, "248": 490013100, "273": 2291534100, "298": 3838940100, "224": 302107500, "249": 497895300, "274": 2324615400, "299": 3838940100};const EPIC={"260": {"260": 194600000000, "280": 387500000000, "261": 197400000000, "281": 392800000000, "262": 200200000000, "282": 397500000000, "263": 203000000000, "283": 402800000000, "264": 206200000000, "284": 407600000000, "265": 232000000000, "285": 458200000000, "266": 235200000000, "286": 463500000000, "267": 238400000000, "287": 469500000000, "268": 242000000000, "288": 475600000000, "269": 245200000000, "289": 481000000000, "270": 256500000000, "290": 540500000000, "271": 268700000000, "291": 546600000000, "272": 272100000000, "292": 553400000000, "273": 287100000000, "293": 560300000000, "274": 291300000000, "294": 566400000000, "275": 327400000000, "295": 566400000000, "276": 331500000000, "296": 566400000000, "277": 336200000000, "297": 566400000000, "278": 340300000000, "298": 566400000000, "279": 345000000000, "299": 566400000000}, "270": {"280": 581250000000, "281": 589200000000, "282": 596250000000, "283": 604200000000, "284": 611400000000, "285": 687300000000, "286": 695250000000, "287": 704250000000, "288": 713400000000, "289": 721500000000, "270": 384750000000, "290": 810750000000, "271": 403050000000, "291": 819900000000, "272": 408150000000, "292": 830100000000, "273": 430650000000, "293": 840450000000, "274": 436950000000, "294": 849600000000, "275": 491100000000, "295": 849600000000, "276": 497250000000, "296": 849600000000, "277": 504300000000, "297": 849600000000, "278": 510450000000, "298": 849600000000, "279": 517500000000, "299": 849600000000}, "280": {"280": 775000000000, "290": 1081000000000, "281": 785600000000, "291": 1093200000000, "282": 795000000000, "292": 1106800000000, "283": 805600000000, "293": 1120600000000, "284": 815200000000, "294": 1132800000000, "285": 916400000000, "295": 1132800000000, "286": 927000000000, "296": 1132800000000, "287": 939000000000, "297": 1132800000000, "288": 951200000000, "298": 1132800000000, "289": 962000000000, "299": 1132800000000}};
 
 
+const VIP={"金": {"260": 8525100, "261": 8525100, "262": 8525100, "263": 8525100, "264": 8525100, "265": 8525100, "266": 8525100, "267": 8525100, "268": 8525100, "269": 8525100, "270": 8525100, "271": 8525100, "272": 8525100, "273": 8525100, "274": 8525100, "275": 8525100, "276": 8525100, "277": 8525100, "278": 8525100, "279": 8525100, "280": 8525100, "281": 8525100, "282": 8525100, "283": 8525100, "284": 8525100, "285": 8525100, "286": 8525100, "287": 8525100, "288": 8525100, "289": 8525100, "290": 8525100, "291": 8525100, "292": 8525100, "293": 8525100, "294": 8525100}, "鑽": {"260": 20801244, "261": 20906154, "262": 21010272, "263": 21114171, "264": 21230073, "265": 22129124, "266": 22235647, "267": 22341642, "268": 22460257, "269": 22565510, "270": 23518210, "271": 23518210, "272": 23518210, "273": 23518210, "274": 23518210, "275": 23518210, "276": 23518210, "277": 23518210, "278": 23518210, "279": 23518210, "280": 23518210, "281": 23518210, "282": 23518210, "283": 23518210, "284": 23518210, "285": 23518210, "286": 23518210, "287": 23518210, "288": 23518210, "289": 23518210, "290": 23518210, "291": 23518210, "292": 23518210, "293": 23518210, "294": 23518210}, "皇家": {"260": 63235782, "261": 63567495, "262": 63896767, "263": 64225414, "264": 64592104, "265": 67439205, "266": 67776851, "267": 68112884, "268": 68489008, "269": 68822824, "270": 71847179, "271": 72028075, "272": 72187987, "273": 72347267, "274": 72525311, "275": 73993095, "276": 74152206, "277": 74330232, "278": 74487542, "279": 74663152, "280": 76163177, "281": 76163177, "282": 76163177, "283": 76163177, "284": 76163177, "285": 76163177, "286": 76163177, "287": 76163177, "288": 76163177, "289": 76163177, "290": 76163177, "291": 76163177, "292": 76163177, "293": 76163177, "294": 76163177}};
 function fmt(n,d=0){if(!isFinite(n)) return '-';return Number(n).toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d})}
 function num(v){const n=Number(v);return isFinite(n)?n:0}
 function q(id){return document.getElementById(id)}
@@ -241,126 +286,110 @@ state.waterHighTotal = waterHighTotal;
 function mixedWheelAppliedRate(extraPct){return 120 * 0.3 * (1 + extraPct/100);} 
 function huntRateSimple(){return num(q('baseRate').value) + mixedWheelAppliedRate(num(q('wheelExtra').value));}
 function calc(){
-  const startLevel=num(q('level').value), startPct=Math.min(99.999999,Math.max(0,num(q('levelPct').value)));
-  const current=GENERAL[startLevel];
+  const startLevel=num(q('level').value);
+  const startPct=Math.min(99.999999,Math.max(0,num(q('levelPct').value)));
+  const dataLevel=Math.min(startLevel,294);
+  const current=GENERAL[dataLevel];
+  const workLevel=dataLevel;
+  const work=GENERAL[workLevel];
+  const high=work.highExp;
+  const bucket=zoneBucket(workLevel);
+
   q('kpiStart').textContent='LV'+startLevel+' / '+fmt(startPct,4)+'%';
   q('baseMonster').textContent=fmt(current.monsterExp,0);
   q('baseHigh').textContent=fmt(current.highExp,0);
   q('baseReq').textContent=fmt(current.levelReq,0);
   q('baseBooster').textContent=fmt((current.base600Ticket||0)*current.highExp,0);
-  q('baseExpress').textContent=fmt((EXPRESS[startLevel]?EXPRESS[startLevel].expressValue:0),0);
-  q('baseSteel').textContent=startLevel>=280?fmt((EXPRESS[startLevel]?EXPRESS[startLevel].steelValue:0),0):'LV280 前不可使用';
-  q('baseTomato').textContent=fmt((TOMATO[startLevel]||0)*800,0);
+  q('baseExpress').textContent=fmt((EXPRESS[workLevel]?EXPRESS[workLevel].expressValue:0),0);
+  q('baseSteel').textContent=workLevel>=280?fmt((EXPRESS[workLevel]?EXPRESS[workLevel].steelValue:0),0):'LV280 前不可使用';
+  q('baseTomato').textContent=fmt((TOMATO[workLevel]||0)*800,0);
   q('parkInfo').textContent='怪公 / 極怪公加成 '+fmt(num(q('extParkBonus').value),2)+'%｜每日260以下 '+fmt(num(q('dailyBonusUnder260').value),2)+'%｜每日260以上 '+fmt(num(q('dailyBonus260Plus').value),2)+'%';
-// ===== 新來源 =====
 
-// 活動技能
-const skillCount = Math.min(140, num(q('skillCount').value));
-const skillExp = work.monsterExp * skillCount * 2;
-const skillHigh = skillExp / high;
-
-// 暴風
-const stormHigh = num(q('stormCount').value) * 0.03296;
-
-// 會場掛機
-const afkHigh = num(q('afkEventHour').value) * 18.75 * 0.9;
-
-// VIP
-const tier = q('vipTier').value;
-const vh = num(q('vipHour').value);
-const vs = num(q('vipSat').value);
-
-const perHour = VIP[tier][workLevel] * 720;
-const effective = (vh - vs) + vs * 2;
-const vipHigh = (perHour * effective / high) * 0.9;
-  
-  const workLevel = startLevel;
-const workPct = startPct;
-
-const dataLevel = Math.min(workLevel,294);
-
-const work = GENERAL[dataLevel];
-const high = work.highExp;
-const bucket = zoneBucket(dataLevel);
   const rows=[];
- let extraForProgress = 0;
-  function addSource(name, exp){ if(exp>0){ addRow(rows,name,exp,high); extraForProgress+=exp; } }
+  let extraForProgress=0;
+  function addSource(name,exp){ if(exp>0){ addRow(rows,name,exp,high); extraForProgress+=exp; } }
 
-  addSource('高階EXP使用', num(q('manualHighExp').value)*high);
-  addSource('狩獵', work.monsterExp * num(q('huntingCount').value) * (huntRateSimple()/100) * 1.2);
-  addSource('一般加速器', (work.base600Ticket||0)*high*num(q('normalBoosterCount').value)*(huntRateSimple()/600));
-  addSource('EXPRESS加速器', (EXPRESS[workLevel]?EXPRESS[workLevel].expressValue:0)*num(q('expressCount').value));
-  addSource('鋼鐵草莓農場', workLevel>=280 ? (EXPRESS[workLevel]?EXPRESS[workLevel].steelValue:0)*num(q('steelCount').value) : 0);
-  addSource('黃金番茄拳擊機', (TOMATO[workLevel]||0)*num(q('tomatoRuns').value)*num(q('tomatoAvg').value));
-  addSource('桑拿', num(q('saunaHours').value)*405*high);
+  const huntBaseExp=work.monsterExp*num(q('huntingCount').value)*(huntRateSimple()/100)*1.2;
+  const skillCount=Math.min(140,num(q('skillCount').value));
+  const skillExp=work.monsterExp*314*skillCount*((huntRateSimple()+200)/100)*1.2;
+  const stormExp=num(q('stormCount').value)*0.03296*high;
+  const normalBoosterExp=(work.base600Ticket||0)*high*num(q('normalBoosterCount').value)*(huntRateSimple()/600);
+  const courierExp=(EXPRESS[workLevel]?EXPRESS[workLevel].expressValue:0)*num(q('expressCount').value);
+  addSource('狩獵',huntBaseExp);
+  addSource('活動技能',skillExp);
+  addSource('暴風修練',stormExp);
+  addSource('一般加速器',normalBoosterExp);
+  addSource('快遞加速器',courierExp);
+  const broBox=num(q('broSpecial').value)*3000+num(q('broRare').value)*6000+num(q('broUncommon').value)*12000+num(q('broLegend').value)*24000;
+  const sisBox=num(q('sisSpecial').value)*30000+num(q('sisRare').value)*60000+num(q('sisUncommon').value)*120000+num(q('sisLegend').value)*240000;
+  const boxExp=work.monsterExp*(broBox+sisBox)*num(q('boxMultiplier').value);
+  addSource('寶物獵人寶箱',boxExp);
 
-  const totalWeeks=num(q('totalWeeks').value);
-  addSource('每日 200–235區', (DAILY[235]||0)*Math.min(7,num(q('d200runsPerWeek').value))*totalWeeks*(1+num(q('dailyBonusUnder260').value)/100));
-  addSource('每日 245–255區', (DAILY[255]||0)*Math.min(7,num(q('d245runsPerWeek').value))*totalWeeks*(1+num(q('dailyBonusUnder260').value)/100));
-  addSource('每日 260區+', (DAILY[bucket]||0)*Math.min(7,num(q('d260runsPerWeek').value))*totalWeeks*(1+num(q('dailyBonus260Plus').value)/100));
-
-  const sharedParkBonus = 1 + num(q('extParkBonus').value)/100;
+  const dailyExp=(DAILY[235]||0)*Math.min(7,num(q('d200runsPerWeek').value))*(1+num(q('dailyBonusUnder260').value)/100)
+    +(DAILY[255]||0)*Math.min(7,num(q('d245runsPerWeek').value))*(1+num(q('dailyBonusUnder260').value)/100)
+    +(DAILY[bucket]||0)*Math.min(7,num(q('d260runsPerWeek').value))*(1+num(q('dailyBonus260Plus').value)/100);
+  const sharedParkBonus=1+num(q('extParkBonus').value)/100;
   const parkRunsWeekly=Math.max(0,num(q('parkRunsPerWeek').value));
-  const sundayBonusRuns=Math.min(7, Math.max(0, parkRunsWeekly-7));
-  const parkEffectiveRuns=parkRunsWeekly + sundayBonusRuns*0.5;
-  addSource('怪物公園', (PARK[bucket]||0)*parkEffectiveRuns*totalWeeks*sharedParkBonus);
-  addSource('紅月之森', (PAGE1[workLevel]?PAGE1[workLevel].redMoon:0)*num(q('redMoonWeeks').value)*num(q('redMoonMode').value));
-  addSource('極限怪物公園', (PAGE1[workLevel]?PAGE1[workLevel].extremePark:0)*num(q('extParkWeeks').value)*sharedParkBonus);
- addSource(
-  '史詩副本',
-  (
-    num(q('ep260').value) * (EPIC['260'][workLevel] || 0) +
-    num(q('ep270').value) * (EPIC['270'][workLevel] || 0) +
-    num(q('ep280').value) * (EPIC['280'][workLevel] || 0)
-  )
-  * (
-    (q('epRate').value === 'custom')
-      ? num(q('epCustom').value)
-      : Number(q('epRate').value)
-  )
-  * 1.3441
-);
+  const sundayBonusRuns=Math.min(7,Math.max(0,parkRunsWeekly-7));
+  const parkEffectiveRuns=parkRunsWeekly+sundayBonusRuns*0.5;
+  const parkExp=(PARK[bucket]||0)*parkEffectiveRuns*sharedParkBonus;
+  const redMoonExp=(PAGE1[workLevel]?PAGE1[workLevel].redMoon:0)*num(q('redMoonMode').value);
+  const extremeParkExp=(PAGE1[workLevel]?PAGE1[workLevel].extremePark:0)*num(q('extParkRuns').value)*sharedParkBonus;
+  const epicRate=(q('epRate').value==='custom')?num(q('epCustom').value):Number(q('epRate').value);
+  const epicExp=(num(q('ep260').value)*(EPIC['260'][workLevel]||0)+num(q('ep270').value)*(EPIC['270'][workLevel]||0)+num(q('ep280').value)*(EPIC['280'][workLevel]||0))*epicRate*1.3441;
+  addSource('每日三區',dailyExp);
+  addSource('怪物公園',parkExp);
+  addSource('紅月之森',redMoonExp);
+  addSource('極限怪物公園',extremeParkExp);
+  addSource('史詩副本',epicExp);
 
-let total=rows.reduce((a,b)=>a+b.exp,0);
+  const steelExp=workLevel>=280?(EXPRESS[workLevel]?EXPRESS[workLevel].steelValue:0)*num(q('steelCount').value):0;
+  const tomatoExp=(TOMATO[workLevel]||0)*num(q('tomatoRuns').value)*num(q('tomatoAvg').value);
+  const saunaExp=num(q('saunaHours').value)*405*high;
+  addSource('鋼鐵草莓農場',steelExp);
+  addSource('黃金番茄拳擊機',tomatoExp);
+  addSource('桑拿',saunaExp);
+  addSource('高階票',(num(q('manualHighExp').value)+num(q('useHighTicket').value))*high);
 
-let state =
-    progressAfter(
-        startLevel,
-        startPct,
-        extraForProgress,
-        q('mode').value
-    );
+  const afkExp=num(q('afkEventHour').value)*18.75*0.9*high;
+  let vipSat=Math.max(0,num(q('vipSat').value));
+  const vipHour=Math.max(0,num(q('vipHour').value));
+  if(vipSat>vipHour){vipSat=vipHour;q('vipSat').value=vipSat;}
+  const vipTier=q('vipTier').value;
+  const vipPer5=VIP[vipTier]&&VIP[vipTier][String(workLevel)]?VIP[vipTier][String(workLevel)]:0;
+  const vipExp=vipPer5*720*((vipHour-vipSat)+vipSat*2)*0.9;
+  addSource('會場掛機',afkExp);
+  addSource('VIP掛機',vipExp);
 
-state =
-    simulateWaters(
-        state,
-        q('mode').value
-    );
+  let total=rows.reduce((a,b)=>a+b.exp,0);
+  let state=progressAfter(startLevel,startPct,extraForProgress,q('mode').value);
+  state=simulateWaters(state,q('mode').value);
+  if(state.waterExpTotal>0){ addRow(rows,'各種水',state.waterExpTotal,high,state.waterHighTotal); }
+  total=rows.reduce((a,b)=>a+b.exp,0);
 
-if(state.waterExpTotal>0){
-    addRow(
-        rows,
-        '各種水',
-        state.waterExpTotal,
-        current.highExp,
-        state.waterHighTotal
-    );
-}
-
-const out = state;
-  q('kpiFinal').textContent=out.level>=295?'LV295 已達成':'LV'+out.level+' / '+fmt(out.pct,4)+'%';
-  q('kpiNeed').textContent=out.level>=295?'0':fmt(out.need,0);
-  q('kpiStatus').textContent=out.status;
+  q('kpiFinal').textContent=state.level>=295?'LV295 已達成':'LV'+state.level+' / '+fmt(state.pct,4)+'%';
+  q('kpiNeed').textContent=state.level>=295?'0':fmt(state.need,0);
+  q('kpiStatus').textContent=state.status;
   q('kpiExp').textContent=fmt(total,0);
   q('kpiHigh').textContent=fmt(total/high,2);
   q('kpiHuntRate').textContent=fmt(num(q('baseRate').value),2)+'%';
   q('kpiParkRate').textContent=fmt(num(q('extParkBonus').value),2)+'%';
   const tbody=document.querySelector('#breakdown tbody'); tbody.innerHTML='';
-  if(rows.length===0){const tr=document.createElement('tr');tr.innerHTML='<td>尚未輸入來源</td><td>0</td><td>0</td>';tbody.appendChild(tr);} else{rows.sort((a,b)=>b.exp-a.exp);for(const r of rows){const tr=document.createElement('tr');tr.innerHTML='<td>'+r.name+'</td><td>'+fmt(r.exp,0)+'</td><td>'+fmt(r.high,2)+'</td>';tbody.appendChild(tr);}}
+  if(rows.length===0){ const tr=document.createElement('tr'); tr.innerHTML='<td>尚未輸入來源</td><td>0</td><td>0</td>'; tbody.appendChild(tr); }
+  else{ rows.sort((a,b)=>b.exp-a.exp); for(const r of rows){ const tr=document.createElement('tr'); tr.innerHTML='<td>'+r.name+'</td><td>'+fmt(r.exp,0)+'</td><td>'+fmt(r.high,2)+'</td>'; tbody.appendChild(tr); } }
 }
+
 initLevels();
-['level','levelPct','mode','manualHighExp','w249','w259','w269','w274','baseRate','wheelExtra','huntingCount','normalBoosterCount','expressCount','steelCount','tomatoRuns','tomatoAvg','saunaHours','ep260','ep270','ep280','epRate','epCustom','totalWeeks','d200runsPerWeek','d245runsPerWeek','d260runsPerWeek','dailyBonusUnder260','dailyBonus260Plus','parkRunsPerWeek','redMoonWeeks','redMoonMode','extParkWeeks','extParkBonus'].forEach(id=>{const el=q(id); if(el) el.addEventListener('input',calc);});
+loadDraft();
+['dateRange','saveNote','level','levelPct','mode','manualHighExp','w249','w259','w269','w274','baseRate','wheelExtra','huntingCount','skillCount','stormCount','normalBoosterCount','expressCount','steelCount','tomatoRuns','tomatoAvg','saunaHours','useHighTicket','ep260','ep270','ep280','epRate','epCustom','dailyBonusUnder260','dailyBonus260Plus','d200runsPerWeek','d245runsPerWeek','d260runsPerWeek','parkRunsPerWeek','redMoonMode','extParkRuns','extParkBonus','afkEventHour','vipTier','vipHour','vipSat'].forEach(id=>{const el=q(id); if(el){el.addEventListener('input',()=>{calc();autoSaveDraft();});el.addEventListener('change',()=>{calc();autoSaveDraft();});}});
 calc();
+function getCurrentRowsForSave(){const rows=[];document.querySelectorAll('#breakdown tbody tr').forEach(tr=>{const tds=[...tr.querySelectorAll('td')].map(td=>td.textContent);if(tds.length===3&&tds[0]!=='尚未輸入來源')rows.push({source:tds[0],exp:tds[1],high:tds[2]});});return JSON.parse(JSON.stringify(rows));}
+function getInputSnapshot(){const inputs={};document.querySelectorAll('input,select').forEach(el=>{if(el.id)inputs[el.id]=el.value;});return inputs;}
+function saveCurrentResult(){calc();const item={id:Date.now(),savedAt:new Date().toISOString(),dateRange:q('dateRange')?q('dateRange').value:'',note:q('saveNote')?q('saveNote').value:'',level:q('level').value,levelPct:q('levelPct').value,final:q('kpiFinal').textContent,need:q('kpiNeed').textContent,totalExp:q('kpiExp').textContent,totalHigh:q('kpiHigh').textContent,rows:getCurrentRowsForSave(),inputs:getInputSnapshot()};const list=JSON.parse(localStorage.getItem('MS_SAVED_ROWS')||'[]');list.push(item);localStorage.setItem('MS_SAVED_ROWS',JSON.stringify(list));alert('已儲存內容');}
+function resetAllInputs(){if(!confirm('確定要重置所有輸入？'))return;localStorage.removeItem('MS_INPUT_DRAFT');document.querySelectorAll('input').forEach(el=>{if(el.type==='number')el.value=el.defaultValue||0;else el.value='';});document.querySelectorAll('select').forEach(el=>{el.selectedIndex=0;});q('level').value='260';q('baseRate').value='550';calc();}
+function autoSaveDraft(){localStorage.setItem('MS_INPUT_DRAFT',JSON.stringify(getInputSnapshot()));}
+function loadDraft(){const inputs=JSON.parse(localStorage.getItem('MS_INPUT_DRAFT')||'{}');Object.keys(inputs).forEach(id=>{const el=q(id);if(el)el.value=inputs[id];});}
+
 </script>
 </body>
 </html>
