@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MS 主計算頁</title>
+<style>
+
+
+:root{--bg:#0f172a;--card:#111827;--muted:#94a3b8;--text:#e5e7eb;--line:#243041;--accent:#38bdf8}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#0b1220,#0f172a);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans TC",sans-serif}
+.wrap{max-width:1680px;margin:0 auto;padding:24px}
+h1{margin:0 0 8px;font-size:28px}h2{font-size:18px;margin:0 0 12px}h3{font-size:13px;margin:10px 0 6px;color:#94a3b8}
+.sub{color:var(--muted);line-height:1.6;margin-bottom:18px}.nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.nav a{color:#bae6fd;text-decoration:none;background:#082f49;padding:8px 12px;border-radius:999px;border:1px solid #164e63}
+.grid{display:grid;grid-template-columns:1.35fr 1.15fr;gap:16px;align-items:start}
+.stack{display:grid;gap:14px}.card{background:rgba(17,24,39,.96);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 35px rgba(0,0,0,.22)}
+label{display:block;font-size:13px;color:#cbd5e1;margin-bottom:6px}input,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #334155;background:#0b1220;color:var(--text)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.muted{color:var(--muted);font-size:12px;line-height:1.5}.section-gap{margin-top:12px;padding-top:12px;border-top:1px dashed #334155}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.kpi{background:#0b1220;border:1px solid #243041;border-radius:10px;padding:8px 10px}.kpi .t{font-size:11px;color:#94a3b8;margin-bottom:4px}.kpi .v{font-size:18px;font-weight:700}
+table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px;border-bottom:1px solid #243041;font-size:13px}th:first-child,td:first-child{text-align:left}
+.note{background:#111827;border-left:4px solid var(--accent);padding:10px 12px;border-radius:10px;color:#cbd5e1;line-height:1.6}
+.small{font-size:12px}
+@media(max-width:1200px){.grid{grid-template-columns:1fr}}@media(max-width:760px){.row,.row3,.row4,.kpis{grid-template-columns:1fr}}
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><a href="./index.html">主計算頁</a><a href="./MS_狩獵經驗％計算.html">狩獵經驗%</a><a href="./MS_狩獵效率.html">狩獵效率</a><a href="./MS_活動資源等值高階EXP.html">活動資源</a><a href="./MS_VIP掛機推估.html">VIP掛機</a></div>
+  <h1>MS 主計算頁</h1>
+  <div class="sub"></div>
+
+  <div class="grid">
+    <div class="stack">
+      <div class="card">
+        <h2>基本設定</h2>
+        <div class="row">
+          <div><label>目前等級</label><select id="level"></select></div>
+          <div><label>目前經驗 %</label><input id="levelPct" type="number" min="0" max="99.999999" step="0.0001" value="0"></div>
+        </div>
+        <div class="row section-gap">
+          <div><label>升等選擇</label><select id="mode"><option value="normal">正常</option><option value="1plus1">1+1 到 LV270</option></select></div>
+          <div><label>高階EXP使用（自填）</label><input id="manualHighExp" type="number" min="0" step="0.01" value="0"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>狩獵設定</h2>
+        <div class="row3">
+          <div><label>基礎倍率 %</label><input id="baseRate" type="number" min="0" step="0.01" value="600"></div>
+          <div><label>地圖輪額外加成 %</label><input id="wheelExtra" type="number" min="0" step="0.01" value="0"></div>
+          <div><label>狩獵怪物總數</label><input id="huntingCount" type="number" min="0" step="1" value="0"></div>
+        </div>
+        <div class="note small" style="margin-top:10px">預設狩獵同等級怪物</div>
+      </div>
+
+      <div class="card">
+        <h2>每日 / 每週項目</h2>
+        <div class="row3">
+          <div><label>總共幾週</label><input id="totalWeeks" type="number" min="0" step="1" value="0"></div>
+          <div><label>怪物公園每週次數</label><input id="parkRunsPerWeek" type="number" min="0" step="1" value="0"><div class="muted">週日有額外加成50%，上限7次</div></div>
+          <div><label>怪公 / 極怪公額外倍率 %</label><input id="extParkBonus" type="number" min="0" step="0.01" value="0"></div>
+        </div>
+        <div class="row3 section-gap">
+          <div><label>每日經驗額外倍率（260以下） %</label><input id="dailyBonusUnder260" type="number" min="0" step="0.01" value="0"></div>
+          <div><label>每日經驗額外倍率（260以上） %</label><input id="dailyBonus260Plus" type="number" min="0" step="0.01" value="0"></div>
+          <div></div>
+        </div>
+        <div class="row3 section-gap">
+          <div><label>每日 200–235區（每週0–7次）</label><input id="d200runsPerWeek" type="number" min="0" max="7" step="1" value="0"></div>
+          <div><label>每日 245–255區（每週0–7次）</label><input id="d245runsPerWeek" type="number" min="0" max="7" step="1" value="0"></div>
+          <div><label>每日 260區+（每週0–7次）</label><input id="d260runsPerWeek" type="number" min="0" max="7" step="1" value="0"></div>
+        </div>
+        <div class="row3 section-gap">
+          <div><label>紅月之森 N週</label><input id="redMoonWeeks" type="number" min="0" step="1" value="0"></div>
+          <div><label>紅月倍率</label><select id="redMoonMode"><option value="0">0倍</option><option value="1">1倍</option><option value="2">2倍</option></select></div>
+          <div><label>極限怪物公園 N週</label><input id="extParkWeeks" type="number" min="0" step="1" value="0"></div>
+        </div>
+        <div class="row section-gap">
+          <div class="muted" id="parkInfo"></div>
+          <div></div>
+        </div>
+        <div class="row3 section-gap">
+          <div><label>史詩副本260</label><input id="ep260" type="number" min="0" step="1" value="0"></div>
+          <div><label>史詩副本270</label><input id="ep270" type="number" min="0" step="1" value="0"></div>
+          <div><label>史詩副本280</label><input id="ep280" type="number" min="0" step="1" value="0"></div>
+        </div>
+        <div class="row section-gap">
+          <div><label>史詩倍率</label><select id="epRate"><option value="1">1X</option><option value="10.75">10.75X</option><option value="custom">自選</option></select></div>
+          <div><label>自選倍率</label><input id="epCustom" type="number" min="0" step="0.01" value="1"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>活動區</h2>
+        <div class="row3">
+          <div><label>一般加速器數量</label><input id="normalBoosterCount" type="number" min="0" step="1" value="0"></div>
+          <div><label>EXPRESS加速器數量</label><input id="expressCount" type="number" min="0" step="1" value="0"></div>
+          <div><label>鋼鐵草莓農場次數</label><input id="steelCount" type="number" min="0" step="1" value="0"></div>
+        </div>
+        <div class="row3 section-gap">
+          <div><label>黃金番茄次數</label><input id="tomatoRuns" type="number" min="0" step="1" value="0"></div>
+          <div><label>黃金番茄分數</label><input id="tomatoAvg" type="number" min="0" max="1150" step="1" value="0"></div>
+          <div><label>桑拿時數</label><input id="saunaHours" type="number" min="0" step="0.5" value="0"></div>
+        </div>
+        <div class="row section-gap">
+          <div class="muted" id="activityInfo"></div>
+          <div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>水系統</h2>
+        <div class="row4">
+          <div><label>249水</label><input id="w249" type="number" min="0" step="1" value="0"></div>
+          <div><label>259水</label><input id="w259" type="number" min="0" step="1" value="0"></div>
+          <div><label>269水</label><input id="w269" type="number" min="0" step="1" value="0"></div>
+          <div><label>274水</label><input id="w274" type="number" min="0" step="1" value="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h2>計算結果</h2>
+        <h3>進度</h3>
+        <div class="kpis">
+          <div class="kpi"><div class="t">起始狀態</div><div class="v" id="kpiStart">-</div></div>
+          <div class="kpi"><div class="t">最終結果</div><div class="v" id="kpiFinal">-</div></div>
+          <div class="kpi"><div class="t">尚差至下一等</div><div class="v" id="kpiNeed">0</div></div>
+          <div class="kpi"><div class="t">狀態</div><div class="v" id="kpiStatus">可計算</div></div>
+        </div>
+        <h3>產出總覽</h3>
+        <div class="kpis">
+          <div class="kpi"><div class="t">本次總 EXP</div><div class="v" id="kpiExp">0</div></div>
+          <div class="kpi"><div class="t">等值高階EXP</div><div class="v" id="kpiHigh">0</div></div>
+          <div class="kpi"><div class="t">狩獵倍率</div><div class="v" id="kpiHuntRate">0%</div></div>
+          <div class="kpi"><div class="t">怪公 / 極怪公加成</div><div class="v" id="kpiParkRate">0%</div></div>
+        </div>
+      </div>
+
+      <div class="card"><h2>來源拆解</h2><table id="breakdown"><thead><tr><th>來源</th><th>EXP</th><th>等值高階EXP</th></tr></thead><tbody></tbody></table></div>
+
+      <div class="card"><h2>顯示中的基礎資料</h2><table><tbody>
+        <tr><th>怪物經驗</th><td id="baseMonster"></td></tr>
+        <tr><th>1高階EXP經驗</th><td id="baseHigh"></td></tr>
+        <tr><th>升等需求</th><td id="baseReq"></td></tr>
+        <tr><th>一般加速器單罐</th><td id="baseBooster"></td></tr>
+        <tr><th>EXPRESS 單次</th><td id="baseExpress"></td></tr>
+        <tr><th>鋼鐵草莓單場</th><td id="baseSteel"></td></tr>
+        <tr><th>黃金番茄每800分</th><td id="baseTomato"></td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</div>
+<script>
+
+const GENERAL={"260": {"monsterExp": 1725461, "highExp": 388229000, "levelReq": 1731919984062, "base600Ticket": 62.2221781474336}, "261": {"monsterExp": 1750290, "highExp": 393816000, "levelReq": 1749239183902, "base600Ticket": 62.222103723566335}, "262": {"monsterExp": 1775159, "highExp": 399411000, "levelReq": 1766731575741, "base600Ticket": 62.22218717060872}, "263": {"monsterExp": 1800203, "highExp": 405046000, "levelReq": 1784398891498, "base600Ticket": 62.222172296479904}, "264": {"monsterExp": 1828409, "highExp": 411393000, "levelReq": 1802242880412, "base600Ticket": 62.222074755768816}, "265": {"monsterExp": 2056974, "highExp": 462820000, "levelReq": 2342915744535, "base600Ticket": 62.22210794693401}, "266": {"monsterExp": 2085219, "highExp": 469175000, "levelReq": 2366344901980, "base600Ticket": 62.22212607236106}, "267": {"monsterExp": 2113572, "highExp": 475554000, "levelReq": 2390008350999, "base600Ticket": 62.22218296975738}, "268": {"monsterExp": 2145596, "highExp": 482760000, "levelReq": 2413908434508, "base600Ticket": 62.22210622255365}, "269": {"monsterExp": 2174274, "highExp": 489212000, "levelReq": 2438047518853, "base600Ticket": 62.22217770618873}, "270": {"monsterExp": 2445217, "highExp": 511726000, "levelReq": 5412465491853, "base600Ticket": 66.8972027999359}, "271": {"monsterExp": 2481337, "highExp": 536006000, "levelReq": 5466590146770, "base600Ticket": 64.81031555616914}, "272": {"monsterExp": 2513634, "highExp": 542983000, "levelReq": 5521256048237, "base600Ticket": 64.81027214480011}, "273": {"monsterExp": 2546149, "highExp": 572884000, "levelReq": 5576468608720, "base600Ticket": 62.222170631401816}, "274": {"monsterExp": 2582906, "highExp": 581154000, "levelReq": 5632233294807, "base600Ticket": 62.222206162222065}, "275": {"monsterExp": 2903024, "highExp": 653181000, "levelReq": 11377111255510, "base600Ticket": 62.22216506603836}, "276": {"monsterExp": 2939616, "highExp": 661414000, "levelReq": 12514822381061, "base600Ticket": 62.22218459240355}, "277": {"monsterExp": 2981010, "highExp": 670728000, "levelReq": 13766304619167, "base600Ticket": 62.22215264608008}, "278": {"monsterExp": 3017988, "highExp": 679048000, "levelReq": 15142935081084, "base600Ticket": 62.22215808013572}, "279": {"monsterExp": 3059716, "highExp": 688437000, "levelReq": 16657228589191, "base600Ticket": 62.22214087854081}, "280": {"monsterExp": 3436027, "highExp": 773107000, "levelReq": 33647601750165, "base600Ticket": 62.22214777514626}, "281": {"monsterExp": 3482914, "highExp": 783656000, "levelReq": 37012361925183, "base600Ticket": 62.22219443225089}, "282": {"monsterExp": 3524768, "highExp": 793073000, "levelReq": 40713598117701, "base600Ticket": 62.22220653079855}, "283": {"monsterExp": 3572010, "highExp": 803703000, "levelReq": 44784957929471, "base600Ticket": 62.22216415765525}, "284": {"monsterExp": 3614278, "highExp": 813213000, "levelReq": 49263453722418, "base600Ticket": 62.22218779089857}, "285": {"monsterExp": 4062965, "highExp": 914168000, "levelReq": 99512176519285, "base600Ticket": 62.22216266594324}, "286": {"monsterExp": 4110304, "highExp": 924819000, "levelReq": 109463394171214, "base600Ticket": 62.22218185396277}, "287": {"monsterExp": 4163751, "highExp": 936844000, "levelReq": 120409733588335, "base600Ticket": 62.22222056180111}, "288": {"monsterExp": 4217526, "highExp": 948944000, "levelReq": 132450706947169, "base600Ticket": 62.22217960174678}, "289": {"monsterExp": 4265489, "highExp": 959736000, "levelReq": 145695777641885, "base600Ticket": 62.22215901039453}, "290": {"monsterExp": 4793318, "highExp": 1078497000, "levelReq": 294305470836608, "base600Ticket": 62.22219626016577}, "291": {"monsterExp": 4847012, "highExp": 1078497000, "levelReq": 323736017920269, "base600Ticket": 62.91919958979951}, "292": {"monsterExp": 4907812, "highExp": 1078497000, "levelReq": 356109619712296, "base600Ticket": 63.708446106016055}, "293": {"monsterExp": 4968977, "highExp": 1078497000, "levelReq": 391720581683526, "base600Ticket": 64.50243069753556}, "294": {"monsterExp": 5023491, "highExp": 1078497000, "levelReq": 430892639851879, "base600Ticket": 65.21007847031564}};const DAILY={"200": 732132258, "210": 2141658246, "220": 3189098250, "225": 3305187639, "230": 4398266165, "235": 4530843954, "245": 8397548775, "250": 9057690000, "255": 10225741680, "260": 16455682080, "265": 19372782409, "270": 23246151120, "280": 38593455264, "290": 89730912960};const PARK={"200": 359915080, "210": 1285078680, "220": 3217660990, "225": 4707573370, "230": 5993511040, "235": 6919667370, "240": 8712814920, "245": 11716616500, "250": 14058901000, "255": 15552557400, "260": 37474604460, "265": 44435446300, "270": 52818835200, "275": 76639838000, "280": 107204032000, "285": 156017856000, "290": 218575316000};const PAGE1={"260": {"redMoon": 265200000000, "extremePark": 265200000000}, "261": {"redMoon": 266220000000, "extremePark": 266220000000}, "262": {"redMoon": 267240000000, "extremePark": 267240000000}, "263": {"redMoon": 268260000000, "extremePark": 268260000000}, "264": {"redMoon": 269280000000, "extremePark": 269280000000}, "265": {"redMoon": 351390000000, "extremePark": 351390000000}, "266": {"redMoon": 352716000000, "extremePark": 352716000000}, "267": {"redMoon": 354042000000, "extremePark": 354042000000}, "268": {"redMoon": 355368000000, "extremePark": 355368000000}, "269": {"redMoon": 356694000000, "extremePark": 356694000000}, "270": {"redMoon": 567000000000, "extremePark": 567000000000}, "271": {"redMoon": 569100000000, "extremePark": 569100000000}, "272": {"redMoon": 571200000000, "extremePark": 571200000000}, "273": {"redMoon": 573300000000, "extremePark": 573300000000}, "274": {"redMoon": 575400000000, "extremePark": 575400000000}, "275": {"redMoon": 739200000000, "extremePark": 740271120000}, "276": {"redMoon": 741888000000, "extremePark": 749602080000}, "277": {"redMoon": 744576000000, "extremePark": 760157550000}, "278": {"redMoon": 747264000000, "extremePark": 769586940000}, "279": {"redMoon": 749952000000, "extremePark": 780227580000}, "280": {"redMoon": 1061424000000, "extremePark": 876186885000}, "281": {"redMoon": 1065214800000, "extremePark": 888143070000}, "282": {"redMoon": 1069005600000, "extremePark": 898815840000}, "283": {"redMoon": 1072796400000, "extremePark": 910862550000}, "284": {"redMoon": 1076587200000, "extremePark": 921640890000}, "285": {"redMoon": 1080378000000, "extremePark": 1036056075000}, "286": {"redMoon": 1084168800000, "extremePark": 1048127520000}, "287": {"redMoon": 1087959600000, "extremePark": 1061756505000}, "288": {"redMoon": 1091750400000, "extremePark": 1075469130000}, "289": {"redMoon": 1095541200000, "extremePark": 1087699695000}, "290": {"redMoon": 845640000000, "extremePark": 1222296090000}, "291": {"redMoon": 848556000000, "extremePark": 1235988060000}, "292": {"redMoon": 851472000000, "extremePark": 1251492060000}, "293": {"redMoon": 854388000000, "extremePark": 1267089135000}, "294": {"redMoon": 857304000000, "extremePark": 1280990205000}};const EXPRESS={"260": {"expressValue": 62944817280.0, "steelValue": 0.0}, "261": {"expressValue": 63850579200.0, "steelValue": 0.0}, "262": {"expressValue": 64757800320.0, "steelValue": 0.0}, "263": {"expressValue": 65671405440.0, "steelValue": 0.0}, "264": {"expressValue": 66700360320.0, "steelValue": 0.0}, "265": {"expressValue": 86294173210.0, "steelValue": 0.0}, "266": {"expressValue": 87479107450.0, "steelValue": 0.0}, "267": {"expressValue": 88668572620.0, "steelValue": 0.0}, "268": {"expressValue": 90012043430.0, "steelValue": 0.0}, "269": {"expressValue": 91215142810.0, "steelValue": 0.0}, "270": {"expressValue": 124882122700.0, "steelValue": 0.0}, "271": {"expressValue": 126726843340.0, "steelValue": 0.0}, "272": {"expressValue": 128376315610.0, "steelValue": 0.0}, "273": {"expressValue": 130036921690.0, "steelValue": 0.0}, "274": {"expressValue": 131914175270.0, "steelValue": 0.0}, "275": {"expressValue": 148263241690.0, "steelValue": 0.0}, "276": {"expressValue": 150132068390.0, "steelValue": 0.0}, "277": {"expressValue": 152246142720.0, "steelValue": 0.0}, "278": {"expressValue": 154134683060.0, "steelValue": 0.0}, "279": {"expressValue": 156265815590.0, "steelValue": 0.0}, "280": {"expressValue": 156682831200.0, "steelValue": 3265600060800.0}, "281": {"expressValue": 158820878400.0, "steelValue": 3310161465600.0}, "282": {"expressValue": 160729420800.0, "steelValue": 3349939507200.0}, "283": {"expressValue": 162883656000.0, "steelValue": 3394838304000.0}, "284": {"expressValue": 164811076800.0, "steelValue": 3435009811200.0}, "285": {"expressValue": 185271204000.0, "steelValue": 5148589248000.0}, "286": {"expressValue": 187429862400.0, "steelValue": 5208577228800.0}, "287": {"expressValue": 189867045600.0, "steelValue": 5276305267200.0}, "288": {"expressValue": 192319185600.0, "steelValue": 5344448947200.0}, "289": {"expressValue": 194506298400.0, "steelValue": 5405227660800.0}, "290": {"expressValue": 201089276660.0, "steelValue": 6580266950400.0}, "291": {"expressValue": 203341847500.0, "steelValue": 6653978073600.0}, "292": {"expressValue": 205892529100.0, "steelValue": 6737444313600.0}, "293": {"expressValue": 208458523180.0, "steelValue": 6821411625600.0}, "294": {"expressValue": 210745494470.0, "steelValue": 6896248444800.0}};const TOMATO={"200": 88837200, "225": 308448000, "250": 526326300, "275": 2612721600, "201": 91250100, "226": 314852400, "251": 534636000, "276": 2645654400, "202": 93690900, "227": 320594400, "252": 542986200, "277": 2682909000, "203": 96412500, "228": 327087000, "253": 551378700, "278": 2716189200, "204": 98897400, "229": 333622800, "254": 559836900, "279": 2753744400, "205": 101395800, "230": 354024900, "255": 568312200, "280": 3092424300, "206": 103923000, "231": 360949500, "256": 576873900, "281": 3134622600, "207": 106738200, "232": 367900200, "257": 585453600, "282": 3172291200, "208": 109307700, "233": 374131800, "258": 595134900, "283": 3214809000, "209": 111889800, "234": 381187800, "259": 603846000, "284": 3252850200, "210": 223202700, "235": 388313100, "260": 1552914900, "285": 3656668500, "211": 228305700, "236": 395461800, "261": 1575261000, "286": 3699273600, "212": 234042300, "237": 401854500, "262": 1597643100, "287": 3747375900, "213": 239227200, "238": 409107600, "263": 1620182700, "288": 3795773400, "214": 234042300, "239": 416403000, "264": 1645568100, "289": 3838940100, "215": 244458900, "240": 423741600, "265": 1851114600, "290": 3838940100, "216": 255638700, "241": 437052600, "266": 1876697100, "291": 3838940100, "217": 261611100, "242": 444605400, "267": 1902214800, "292": 3838940100, "218": 266987700, "243": 451314900, "268": 1931036400, "293": 3838940100, "219": 273054600, "244": 458967600, "269": 1956846600, "294": 3838940100, "220": 278523000, "245": 466659900, "270": 2046902400, "295": 3838940100, "221": 284684400, "246": 474395400, "271": 2144023200, "296": 3838940100, "222": 290225700, "247": 482174100, "272": 2171930400, "297": 3838940100, "223": 296475300, "248": 490013100, "273": 2291534100, "298": 3838940100, "224": 302107500, "249": 497895300, "274": 2324615400, "299": 3838940100};const EPIC={"260": {"260": 194600000000, "280": 387500000000, "261": 197400000000, "281": 392800000000, "262": 200200000000, "282": 397500000000, "263": 203000000000, "283": 402800000000, "264": 206200000000, "284": 407600000000, "265": 232000000000, "285": 458200000000, "266": 235200000000, "286": 463500000000, "267": 238400000000, "287": 469500000000, "268": 242000000000, "288": 475600000000, "269": 245200000000, "289": 481000000000, "270": 256500000000, "290": 540500000000, "271": 268700000000, "291": 546600000000, "272": 272100000000, "292": 553400000000, "273": 287100000000, "293": 560300000000, "274": 291300000000, "294": 566400000000, "275": 327400000000, "295": 566400000000, "276": 331500000000, "296": 566400000000, "277": 336200000000, "297": 566400000000, "278": 340300000000, "298": 566400000000, "279": 345000000000, "299": 566400000000}, "270": {"280": 581250000000, "281": 589200000000, "282": 596250000000, "283": 604200000000, "284": 611400000000, "285": 687300000000, "286": 695250000000, "287": 704250000000, "288": 713400000000, "289": 721500000000, "270": 384750000000, "290": 810750000000, "271": 403050000000, "291": 819900000000, "272": 408150000000, "292": 830100000000, "273": 430650000000, "293": 840450000000, "274": 436950000000, "294": 849600000000, "275": 491100000000, "295": 849600000000, "276": 497250000000, "296": 849600000000, "277": 504300000000, "297": 849600000000, "278": 510450000000, "298": 849600000000, "279": 517500000000, "299": 849600000000}, "280": {"280": 775000000000, "290": 1081000000000, "281": 785600000000, "291": 1093200000000, "282": 795000000000, "292": 1106800000000, "283": 805600000000, "293": 1120600000000, "284": 815200000000, "294": 1132800000000, "285": 916400000000, "295": 1132800000000, "286": 927000000000, "296": 1132800000000, "287": 939000000000, "297": 1132800000000, "288": 951200000000, "298": 1132800000000, "289": 962000000000, "299": 1132800000000}};
+
+
+function fmt(n,d=0){if(!isFinite(n)) return '-';return Number(n).toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d})}
+function num(v){const n=Number(v);return isFinite(n)?n:0}
+function q(id){return document.getElementById(id)}
+function addRow(rows,name,exp,highBase,customHigh=null){
+
+    if(exp<=0) return;
+
+    rows.push({
+        name,
+        exp,
+        high:
+            customHigh !== null
+            ? customHigh
+            : (highBase>0 ? exp/highBase : 0)
+    });
+}
+function zoneBucket(level){return Math.min(290,260+Math.floor((Math.min(level,294)-260)/5)*5)}
+
+function progressAfter(level,pct,extraExp,mode){if(level>=295) return {level:295,pct:0,need:0,status:'LV295 已達成'};let curLevel=level;let pool=GENERAL[curLevel].levelReq*pct/100+extraExp;while(curLevel<=294){const req=GENERAL[curLevel].levelReq;if(pool<req) break;pool-=req;if(mode==='1plus1'&&curLevel<270){curLevel=Math.min(curLevel+2,270);}else{curLevel+=1;}if(curLevel>=295) return {level:295,pct:0,need:0,status:'LV295 已達成'};}const nextReq=GENERAL[curLevel].levelReq;return {level:curLevel,pct:(pool/nextReq)*100,need:Math.max(0,nextReq-pool),status:'可計算'};}
+function applyWater(state, cap, mode){
+
+    const grantLevel =
+        Math.min(state.level, cap);
+
+    const waterExp =
+        GENERAL[grantLevel].levelReq;
+
+    const highEquivalent =
+        waterExp /
+        GENERAL[state.level].highExp;
+
+    return {
+        state: progressAfter(
+            state.level,
+            state.pct,
+            waterExp,
+            mode
+        ),
+        exp: waterExp,
+        highEquivalent
+    };
+}
+
+function simulateWaters(state, mode){
+
+    const waters = [];
+
+    for(let i=0;i<num(q('w249').value);i++) waters.push(249);
+    for(let i=0;i<num(q('w259').value);i++) waters.push(259);
+    for(let i=0;i<num(q('w269').value);i++) waters.push(269);
+    for(let i=0;i<num(q('w274').value);i++) waters.push(274);
+
+    waters.sort((a,b)=>a-b);
+
+  let waterExpTotal = 0;
+  let waterHighTotal = 0;
+
+    for(const cap of waters){
+
+        const result =
+            applyWater(
+                state,
+                cap,
+                mode
+            );
+
+        state = result.state;
+        waterExpTotal += result.exp;
+waterHighTotal += result.highEquivalent;
+    }
+
+   state.waterExpTotal = waterExpTotal;
+state.waterHighTotal = waterHighTotal;
+
+    return state;
+}
+  function initLevels(){for(let lv=260;lv<=295;lv++){const op=document.createElement('option');op.value=lv;op.textContent=lv===295?'295（已達成）':String(lv);q('level').appendChild(op);}q('level').value=260;}
+function mixedWheelAppliedRate(extraPct){return 120 * 0.3 * (1 + extraPct/100);} 
+function huntRateSimple(){return num(q('baseRate').value) + mixedWheelAppliedRate(num(q('wheelExtra').value));}
+function calc(){
+  const startLevel=num(q('level').value), startPct=Math.min(99.999999,Math.max(0,num(q('levelPct').value)));
+  const current=GENERAL[startLevel];
+  q('kpiStart').textContent='LV'+startLevel+' / '+fmt(startPct,4)+'%';
+  q('baseMonster').textContent=fmt(current.monsterExp,0);
+  q('baseHigh').textContent=fmt(current.highExp,0);
+  q('baseReq').textContent=fmt(current.levelReq,0);
+  q('baseBooster').textContent=fmt((current.base600Ticket||0)*current.highExp,0);
+  q('baseExpress').textContent=fmt((EXPRESS[startLevel]?EXPRESS[startLevel].expressValue:0),0);
+  q('baseSteel').textContent=startLevel>=280?fmt((EXPRESS[startLevel]?EXPRESS[startLevel].steelValue:0),0):'LV280 前不可使用';
+  q('baseTomato').textContent=fmt((TOMATO[startLevel]||0)*800,0);
+  q('parkInfo').textContent='怪公 / 極怪公加成 '+fmt(num(q('extParkBonus').value),2)+'%｜每日260以下 '+fmt(num(q('dailyBonusUnder260').value),2)+'%｜每日260以上 '+fmt(num(q('dailyBonus260Plus').value),2)+'%';
+
+  const workLevel = startLevel;
+const workPct = startPct;
+
+const dataLevel = Math.min(workLevel,294);
+
+const work = GENERAL[dataLevel];
+const high = work.highExp;
+const bucket = zoneBucket(dataLevel);
+  const rows=[];
+ let extraForProgress = 0;
+  function addSource(name, exp){ if(exp>0){ addRow(rows,name,exp,high); extraForProgress+=exp; } }
+
+  addSource('高階EXP使用', num(q('manualHighExp').value)*high);
+  addSource('狩獵', work.monsterExp * num(q('huntingCount').value) * (huntRateSimple()/100) * 1.2);
+  addSource('一般加速器', (work.base600Ticket||0)*high*num(q('normalBoosterCount').value)*(huntRateSimple()/600));
+  addSource('EXPRESS加速器', (EXPRESS[workLevel]?EXPRESS[workLevel].expressValue:0)*num(q('expressCount').value));
+  addSource('鋼鐵草莓農場', workLevel>=280 ? (EXPRESS[workLevel]?EXPRESS[workLevel].steelValue:0)*num(q('steelCount').value) : 0);
+  addSource('黃金番茄拳擊機', (TOMATO[workLevel]||0)*num(q('tomatoRuns').value)*num(q('tomatoAvg').value));
+  addSource('桑拿', num(q('saunaHours').value)*405*high);
+
+  const totalWeeks=num(q('totalWeeks').value);
+  addSource('每日 200–235區', (DAILY[235]||0)*Math.min(7,num(q('d200runsPerWeek').value))*totalWeeks*(1+num(q('dailyBonusUnder260').value)/100));
+  addSource('每日 245–255區', (DAILY[255]||0)*Math.min(7,num(q('d245runsPerWeek').value))*totalWeeks*(1+num(q('dailyBonusUnder260').value)/100));
+  addSource('每日 260區+', (DAILY[bucket]||0)*Math.min(7,num(q('d260runsPerWeek').value))*totalWeeks*(1+num(q('dailyBonus260Plus').value)/100));
+
+  const sharedParkBonus = 1 + num(q('extParkBonus').value)/100;
+  const parkRunsWeekly=Math.max(0,num(q('parkRunsPerWeek').value));
+  const sundayBonusRuns=Math.min(7, Math.max(0, parkRunsWeekly-7));
+  const parkEffectiveRuns=parkRunsWeekly + sundayBonusRuns*0.5;
+  addSource('怪物公園', (PARK[bucket]||0)*parkEffectiveRuns*totalWeeks*sharedParkBonus);
+  addSource('紅月之森', (PAGE1[workLevel]?PAGE1[workLevel].redMoon:0)*num(q('redMoonWeeks').value)*num(q('redMoonMode').value));
+  addSource('極限怪物公園', (PAGE1[workLevel]?PAGE1[workLevel].extremePark:0)*num(q('extParkWeeks').value)*sharedParkBonus);
+ addSource(
+  '史詩副本',
+  (
+    num(q('ep260').value) * (EPIC['260'][workLevel] || 0) +
+    num(q('ep270').value) * (EPIC['270'][workLevel] || 0) +
+    num(q('ep280').value) * (EPIC['280'][workLevel] || 0)
+  )
+  * (
+    (q('epRate').value === 'custom')
+      ? num(q('epCustom').value)
+      : Number(q('epRate').value)
+  )
+  * 1.3441
+);
+
+let total=rows.reduce((a,b)=>a+b.exp,0);
+
+let state =
+    progressAfter(
+        startLevel,
+        startPct,
+        extraForProgress,
+        q('mode').value
+    );
+
+state =
+    simulateWaters(
+        state,
+        q('mode').value
+    );
+
+if(state.waterExpTotal>0){
+    addRow(
+        rows,
+        '各種水',
+        state.waterExpTotal,
+        current.highExp,
+        state.waterHighTotal
+    );
+}
+
+const out = state;
+  q('kpiFinal').textContent=out.level>=295?'LV295 已達成':'LV'+out.level+' / '+fmt(out.pct,4)+'%';
+  q('kpiNeed').textContent=out.level>=295?'0':fmt(out.need,0);
+  q('kpiStatus').textContent=out.status;
+  q('kpiExp').textContent=fmt(total,0);
+  q('kpiHigh').textContent=fmt(total/high,2);
+  q('kpiHuntRate').textContent=fmt(num(q('baseRate').value),2)+'%';
+  q('kpiParkRate').textContent=fmt(num(q('extParkBonus').value),2)+'%';
+  const tbody=document.querySelector('#breakdown tbody'); tbody.innerHTML='';
+  if(rows.length===0){const tr=document.createElement('tr');tr.innerHTML='<td>尚未輸入來源</td><td>0</td><td>0</td>';tbody.appendChild(tr);} else{rows.sort((a,b)=>b.exp-a.exp);for(const r of rows){const tr=document.createElement('tr');tr.innerHTML='<td>'+r.name+'</td><td>'+fmt(r.exp,0)+'</td><td>'+fmt(r.high,2)+'</td>';tbody.appendChild(tr);}}
+}
+initLevels();
+['level','levelPct','mode','manualHighExp','w249','w259','w269','w274','baseRate','wheelExtra','huntingCount','normalBoosterCount','expressCount','steelCount','tomatoRuns','tomatoAvg','saunaHours','ep260','ep270','ep280','epRate','epCustom','totalWeeks','d200runsPerWeek','d245runsPerWeek','d260runsPerWeek','dailyBonusUnder260','dailyBonus260Plus','parkRunsPerWeek','redMoonWeeks','redMoonMode','extParkWeeks','extParkBonus'].forEach(id=>{const el=q(id); if(el) el.addEventListener('input',calc);});
+calc();
+</script>
+</body>
+</html>
