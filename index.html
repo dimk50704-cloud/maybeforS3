@@ -313,7 +313,15 @@ function calc(){
   const skillCount=Math.min(140,num(q('skillCount').value));
   const skillExp=work.monsterExp*314*skillCount*((huntRateSimple()+200)/100)*1.2;
   const stormExp=num(q('stormCount').value)*0.03296*high;
-  const normalBoosterExp=(work.base600Ticket||0)*high*num(q('normalBoosterCount').value)*(huntRateSimple()/600);
+ 
+const boosterRate = (num(q('baseRate').value) + 100) / 100;
+
+const normalBoosterExp =
+  (work.base600Ticket || 0) *
+  high *
+  num(q('normalBoosterCount').value) *
+  boosterRate;
+
   const courierExp=(EXPRESS[workLevel]?EXPRESS[workLevel].expressValue:0)*num(q('expressCount').value);
   addSource('狩獵',huntBaseExp);
   addSource('活動技能',skillExp);
