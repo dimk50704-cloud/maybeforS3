@@ -345,13 +345,17 @@ function calc(){
   
 const skillExp =
     work.monsterExp *
-    314 *
+    getSkillCoefficient(workLevel) *
     skillCount *
     ((huntRateSimple()+200)/100) *
     1.2 *
-    eventSkillMultiplier() *
-    level280Bonus(workLevel);
+    eventSkillMultiplier();
+function getSkillCoefficient(level) {
+    if (level >= 280) return 400;
+    if (level >= 270) return 312.5;
+    return 250;   // 260~269
 
+  
   const stormExp=num(q('stormCount').value)*0.03296*high;
   const normalBoosterExp=(work.base600Ticket||0)*high*num(q('normalBoosterCount').value)*(huntRateSimple()/600);
   const courierExp=(EXPRESS[workLevel]?EXPRESS[workLevel].expressValue:0)*num(q('expressCount').value);
