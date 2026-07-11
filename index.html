@@ -57,41 +57,52 @@ table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:8px 6px
         <div class="note small" style="margin-top:10px">預設狩獵同等級怪物</div>
       </div>
       <div class="card">
-        <h2>狩獵額外系統</h2>
-        <div class="row3">
-          <div><label>活動技能次數（≤140）</label><input id="skillCount" type="number" min="0" max="140" step="1" value="0"></div>
-          <label>活動技能額外加權 (%)</label>
-<input id="skillBonus" type="number" value="0" min="0" step="0.1">
-          <label>活動技能等級</label>
-<select id="skillLv">
-    <option value="1">LV1</option>
-    <option value="2">LV2</option>
-    <option value="3" selected>LV3</option>
-    <option value="4">LV4</option>
-    <option value="5">LV5</option>
- <label>活動技能額外加權</label>
-<select id="skillBonus">
-    <option value="0" selected>0%</option>
-    <option value="custom">自填%</option>
-</select> 
-  <label>自填%</label>
-<input id="skillBonusCustom"
-       type="number"
-       min="0"
-       step="0.01"
-       value="25">
-  function eventSkillBonusMultiplier() {
+<div class="card">
+  <h2>狩獵額外系統</h2>
 
-    if (q("skillBonus").value === "custom") {
-        return 1 + num(q("skillBonusCustom").value) / 100;
-    }
- return 1;
-}
-</select>
-          <div><label>暴風修練擊殺數</label><input id="stormCount" type="number" min="0" step="1" value="0"></div>
-          <div></div>
-        </div>
-      </div>
+  <div class="row3">
+
+    <div>
+      <label>活動技能次數（0~140）</label>
+      <input id="skillCount"
+             type="number"
+             min="0"
+             max="140"
+             step="1"
+             value="0">
+    </div>
+
+    <div>
+      <label>活動技能額外加權 (%)</label>
+      <input id="skillBonusCustom"
+             type="number"
+             min="0"
+             step="0.01"
+             value="0">
+    </div>
+
+    <div>
+      <label>活動技能等級</label>
+      <select id="skillLv">
+        <option value="1">LV1</option>
+        <option value="2">LV2</option>
+        <option value="3" selected>LV3</option>
+        <option value="4">LV4</option>
+        <option value="5">LV5</option>
+      </select>
+    </div>
+
+    <div>
+      <label>暴風修練擊殺數</label>
+      <input id="stormCount"
+             type="number"
+             min="0"
+             step="1"
+             value="0">
+    </div>
+
+  </div>
+</div>
 
 
 
@@ -315,6 +326,10 @@ function mixedWheelAppliedRate(extraPct){return 120 * 0.3 * (1 + extraPct/100);}
 function huntRateSimple(){return num(q('baseRate').value) + mixedWheelAppliedRate(num(q('wheelExtra').value));}
 function eventSkillMultiplier() {const lv = Number(document.getElementById("skillLv").value);return 1 + (lv - 1) * 0.0625;}
 
+function eventSkillBonusMultiplier() {
+    return 1 + num(q("skillBonusCustom").value) / 100;
+}
+
 function level280Bonus(level) {return (level >= 280 && level <= 289) ? 1.25 : 1;}
   function calc(){
   const startLevel=num(q('level').value);
@@ -423,7 +438,7 @@ const normalBoosterExp =
 
 initLevels();
 loadDraft();
-['dateRange','saveNote','level','levelPct','mode','manualHighExp','w249','w259','w269','w274','baseRate','wheelExtra','huntingCount','skillCount','skillBonus','stormCount','normalBoosterCount','expressCount','steelCount','tomatoRuns','tomatoAvg','saunaHours','useHighTicket','ep260','ep270','ep280','epRate','epCustom','dailyBonusUnder260','dailyBonus260Plus','d200runsPerWeek','d245runsPerWeek','d260runsPerWeek','parkRunsPerWeek','redMoonMode','extParkRuns','extParkBonus','afkEventHour','vipTier','vipHour','vipSat'].forEach(id=>{const el=q(id); if(el){el.addEventListener('input',()=>{calc();autoSaveDraft();});el.addEventListener('change',()=>{calc();autoSaveDraft();});}});
+['dateRange','saveNote','level','levelPct','mode','manualHighExp','w249','w259','w269','w274','baseRate','wheelExtra','huntingCount','skillCount','killBonusCustom','stormCount','normalBoosterCount','expressCount','steelCount','tomatoRuns','tomatoAvg','saunaHours','useHighTicket','ep260','ep270','ep280','epRate','epCustom','dailyBonusUnder260','dailyBonus260Plus','d200runsPerWeek','d245runsPerWeek','d260runsPerWeek','parkRunsPerWeek','redMoonMode','extParkRuns','extParkBonus','afkEventHour','vipTier','vipHour','vipSat'].forEach(id=>{const el=q(id); if(el){el.addEventListener('input',()=>{calc();autoSaveDraft();});el.addEventListener('change',()=>{calc();autoSaveDraft();});}});
 calc();
 function getCurrentRowsForSave(){const rows=[];document.querySelectorAll('#breakdown tbody tr').forEach(tr=>{const tds=[...tr.querySelectorAll('td')].map(td=>td.textContent);if(tds.length===3&&tds[0]!=='尚未輸入來源')rows.push({source:tds[0],exp:tds[1],high:tds[2]});});return JSON.parse(JSON.stringify(rows));}
 function getInputSnapshot(){const inputs={};document.querySelectorAll('input,select').forEach(el=>{if(el.id)inputs[el.id]=el.value;});return inputs;}
