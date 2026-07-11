@@ -309,7 +309,6 @@ function huntRateSimple(){return num(q('baseRate').value) + mixedWheelAppliedRat
     const lv = Number(q('skillLv').value);
     return 1 + (lv - 1) * 0.0625;
 }
-`
 
 function level280Bonus(level){
     return (level >= 280 && level <= 289)
